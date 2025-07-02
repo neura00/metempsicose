@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Oráculo de Mnemósine</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>Φ</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Oráculo de Mnemósine</h1>
+        <nav>
+             <a href="index.html">Voltar ao Início</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div id="dashboard-content">
+                <h2>Visão do Filósofo-Rei</h2>
+                <p>Distribuição percentual dos ecos da alma dos visitantes.</p>
+
+                <div class="graph-container">
+                    <div class="bar-item">
+                        <span class="bar-label">Alma de Ouro (Filósofo)</span>
+                        <div class="bar-wrapper">
+                            <div class="bar bar-gold" id="bar-filosofo" style="width: 0%;">0%</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Alma de Prata (Guardião)</span>
+                        <div class="bar-wrapper">
+                            <div class="bar bar-silver" id="bar-guardiao" style="width: 0%;">0%</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Alma de Bronze (Artesão)</span>
+                        <div class="bar-wrapper">
+                            <div class="bar bar-bronze" id="bar-artesao" style="width: 0%;">0%</div>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; font-style: italic; color: #777; margin-top: 20px;">Total de jornadas analisadas: <span id="total-jornadas">0</span></p>
+            </div>
+        </div>
+    </main>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAYa4v5UyI153J5BJQ3VT_myKagAWiYLWk",
+            authDomain: "oraculo-mnemosine.firebaseapp.com",
+            projectId: "oraculo-mnemosine",
+            storageBucket: "oraculo-mnemosine.appspot.com",
+            messagingSenderId: "2087358575",
+            appId: "1:2087358575:web:ea9aa6f69554235bfcfd9a",
+            measurementId: "G-V018KMV1FX"
+        };
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const resultadosRef = db.collection("resultados");
+        resultadosRef.onSnapshot((snapshot) => {
+            const total = snapshot.size;
+            let filosofo = 0, guardiao = 0, artesao = 0;
+
+            snapshot.forEach(doc => {
+                const arquetipo = doc.data().arquetipo;
+                if (arquetipo.includes("Filósofo")) filosofo++;
+                if (arquetipo.includes("Guardião")) guardiao++;
+                if (arquetipo.includes("Artesão")) artesao++;
+            });
+
+            const percFilosofo = total > 0 ? (filosofo / total) * 100 : 0;
+            const percGuardiao = total > 0 ? (guardiao / total) * 100 : 0;
+            const percArtesao = total > 0 ? (artesao / total) * 100 : 0;
+
+            document.getElementById('total-jornadas').innerText = total;
+
+            const barFilosofo = document.getElementById('bar-filosofo');
+            barFilosofo.style.width = percFilosofo + '%';
+            barFilosofo.innerText = percFilosofo.toFixed(1) + '%';
+            
+            const barGuardiao = document.getElementById('bar-guardiao');
+            barGuardiao.style.width = percGuardiao + '%';
+            barGuardiao.innerText = percGuardiao.toFixed(1) + '%';
+
+            const barArtesao = document.getElementById('bar-artesao');
+            barArtesao.style.width = percArtesao + '%';
+            barArtesao.innerText = percArtesao.toFixed(1) + '%';
+        });
+    </script>
+</body>
+</html>
