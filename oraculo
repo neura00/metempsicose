@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Oráculo - Oráculo de Mnemósine</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>Φ</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Oráculo de Mnemósine</h1>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="teoria.html">A Teoria</a>
+            <a href="oraculo.html" class="active">O Oráculo</a>
+            <a href="arquetipos.html">Arquétipos</a>
+            <a href="biblioteca.html">Biblioteca</a>
+            <a href="glossario.html">Glossário</a>
+            <a href="https://chat.whatsapp.com/IfzYDfiul1W0DjTwcZUiL2" target="_blank">Contacto</a>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <h2>A Anamnese</h2>
+            <audio id="audio-player" controls loop class="audio-player">
+                <source src="musica/musica-ambiente.mp3" type="audio/mpeg">
+                O seu navegador não suporta o elemento de áudio.
+            </audio>
+            <div id="loading-container" class="oraculo-container" style="text-align: center;">
+                <p>A verificar a sua jornada...</p>
+            </div>
+            <div id="oraculo-container" class="oraculo-container" style="display: none;">
+                <!-- ETAPAS 0 a 12 -->
+            </div>
+            <div id="resultado-anterior-container" class="oraculo-container" style="display: none; text-align: center;">
+                <h2>A Sua Memória Recente</h2>
+                <p>A sua alma já dialogou com o Oráculo nas últimas 24 horas. Para preservar a santidade da Anamnese, uma nova jornada só pode ser iniciada após este período.</p>
+                <p>O eco recordado da sua última jornada foi:</p>
+                <h3 id="arquetipo-anterior" style="border: none; margin-top: 10px;"></h3>
+                <p><a href="arquetipos.html" class="botao">Relembrar os Arquétipos</a></p>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Oráculo de Mnemósine. Uma exploração filosófica.</p>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
