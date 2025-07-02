@@ -27,17 +27,247 @@
                 <source src="musica/musica-ambiente.mp3" type="audio/mpeg">
                 O seu navegador não suporta o elemento de áudio.
             </audio>
+
             <div id="loading-container" class="oraculo-container" style="text-align: center; display: none;">
                 <p>A verificar a sua jornada...</p>
             </div>
+
             <div id="oraculo-container" class="oraculo-container">
-                <!-- ETAPAS 0 a 12 -->
+                
+                <!-- ETAPA 0: CONSENTIMENTO INICIAL -->
+                <div id="etapa0" class="etapa etapa-ativa">
+                    <h3>Consentimento para a Jornada</h3>
+                    <p>Antes de iniciar a sua Anamnese, precisamos do seu consentimento. Ao prosseguir, concorda que os dados fornecidos e o arquétipo resultante serão guardados de forma anónima na nossa base de dados para fins de estudo filosófico do projeto.</p>
+                    <div class="consentimento-inicial-container">
+                        <label>
+                            <input type="checkbox" id="consentimento-inicial-check">
+                            Li, compreendi e concordo em iniciar a Anamnese sob estas condições.
+                        </label>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <span></span>
+                        <button type="button" class="botao" id="botao-iniciar" disabled>Concordo e Continuar &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 1: DADOS PESSOAIS -->
+                <div id="etapa1" class="etapa">
+                    <h3>Etapa I: Os Seus Princípios Fundamentais</h3>
+                    <p>O seu nome e a sua data de nascimento são os pilares da sua identidade nesta existência. As suas estruturas numéricas, segundo os pitagóricos, revelam a sua harmonia e o seu caminho.</p>
+                    <div class="form-group">
+                        <label for="nomeCompleto">Insira o seu nome completo de nascimento:</label>
+                        <input type="text" id="nomeCompleto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataNascimento">Insira a sua data de nascimento:</label>
+                        <input type="date" id="dataNascimento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">O seu email:</label>
+                        <input type="email" id="email" required placeholder="exemplo@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="whatsapp">O seu WhatsApp:</label>
+                        <input type="tel" id="whatsapp" required placeholder="+351 912 345 678">
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(0)">&larr; Voltar</button>
+                        <button type="button" class="botao" onclick="irParaEtapa(2)">Próximo &rarr;</button>
+                    </div>
+                </div>
+                
+                <!-- ETAPA 2: A ALMA TRIPARTITE -->
+                <div id="etapa2" class="etapa">
+                    <h3>Etapa II: A Natureza Tripartite da Alma</h3>
+                    <p>Platão descreveu a alma como sendo composta por três partes. Qual destas partes sente como sendo o seu centro de comando, a sua força motriz mais natural?</p>
+                    <div class="dilema-options">
+                        <label><input type="radio" name="alma_tripartite" value="razao" required> <strong>A Cabeça (<span class="tooltip">Logistikon<span class="tooltip-text">A parte racional da alma, responsável pelo pensamento lógico e pela busca da verdade.</span></span>):</strong> O centro da razão, do cálculo e da busca pela verdade.</label>
+                        <label><input type="radio" name="alma_tripartite" value="animo"> <strong>O Peito (<span class="tooltip">Thymoeides<span class="tooltip-text">A parte irascível da alma, sede da coragem, da honra e da indignação justa.</span></span>):</strong> O centro do ânimo, da coragem, da honra e da indignação.</label>
+                        <label><input type="radio" name="alma_tripartite" value="desejo"> <strong>O Ventre (<span class="tooltip">Epithymetikon<span class="tooltip-text">A parte apetitiva da alma, ligada aos desejos, prazeres e necessidades do corpo.</span></span>):</strong> O centro dos apetites, dos desejos e da busca pelo prazer.</label>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(1)">&larr; Anterior</button>
+                        <button type="button" class="botao" onclick="irParaEtapa(3)">Próximo &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 3: SÓLIDOS PLATÓNICOS -->
+                <div id="etapa3" class="etapa">
+                    <h3>Etapa III: A Arquitetura do Kosmos</h3>
+                    <p>Para Platão, os Sólidos Perfeitos são os "tijolos" elementares do universo. A sua afinidade intuitiva com uma destas formas pode revelar a estrutura primordial da sua alma.</p>
+                    <div class="solidos-container">
+                        <div class="solido-card" data-valor="fogo"><img src="https://images.unsplash.com/photo-1632639761587-e332fe77c6f8?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="[Imagem de uma forma geométrica a arder]"><br>Tetraedro (Fogo)</div>
+                        <div class="solido-card" data-valor="terra"><img src="https://images.unsplash.com/photo-1699924539821-f65017a1a851?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="[Imagem de cristais cúbicos]"><br>Cubo (Terra)</div>
+                        <div class="solido-card" data-valor="ar"><img src="https://images.unsplash.com/photo-1630756377240-bcec76b13bca?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="[Imagem de um cristal octaédrico]"><br>Octaedro (Ar)</div>
+                        <div class="solido-card" data-valor="agua"><img src="https://images.unsplash.com/photo-1613481950732-c1dcddcb410e?q=80&w=898&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="[Imagem de um floco de neve macro]"><br>Icosaedro (Água)</div>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(2)">&larr; Anterior</button>
+                        <button type="button" class="botao" onclick="irParaEtapa(4)">Próximo &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 4: AS VIRTUDES CARDINAIS -->
+                <div id="etapa4" class="etapa">
+                    <h3>Etapa IV: A Hierarquia das Virtudes</h3>
+                    <p>As quatro virtudes cardinais definem o caráter de uma alma nobre. Qual delas considera ser a mais fundamental?</p>
+                     <div class="dilema-options">
+                        <label><input type="radio" name="virtude" value="sabedoria" required> <strong>Sabedoria (<span class="tooltip">Phronēsis<span class="tooltip-text">Prudência ou sabedoria prática; a capacidade de discernir o caminho correto na ação.</span></span>)</strong></label>
+                        <label><input type="radio" name="virtude" value="coragem"> <strong>Coragem (<span class="tooltip">Andreia<span class="tooltip-text">Força de caráter, bravura e firmeza perante a adversidade.</span></span>)</strong></label>
+                        <label><input type="radio" name="virtude" value="temperanca"> <strong>Temperança (<span class="tooltip">Sōphrosynē<span class="tooltip-text">Autodomínio, moderação e harmonia interior.</span></span>)</strong></label>
+                        <label><input type="radio" name="virtude" value="justica"> <strong>Justiça (<span class="tooltip">Dikaiosynē<span class="tooltip-text">O princípio da ordem correta, onde cada parte cumpre a sua função.</span></span>)</strong></label>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(3)">&larr; Anterior</button>
+                        <button type="button" class="botao" onclick="irParaEtapa(5)">Próximo &rarr;</button>
+                    </div>
+                </div>
+                
+                <!-- ETAPA 5: ALEGORIA DA CAVERNA -->
+                <div id="etapa5" class="etapa">
+                    <h3>Etapa V: O Dilema do Prisioneiro Liberto</h3>
+                    <p>Após contemplar a Verdade fora da Caverna de Platão, o que faria a sua alma?</p>
+                    <div class="dilema-options">
+                        <label><input type="radio" name="caverna" value="retornar" required> Retornar à caverna para tentar libertar os outros.</label>
+                        <label><input type="radio" name="caverna" value="contemplar"> Permanecer fora, dedicando-se à contemplação pura da Verdade.</label>
+                        <label><input type="radio" name="caverna" value="recriar"> Tentar recriar a beleza do mundo exterior dentro da caverna.</label>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(4)">&larr; Anterior</button>
+                        <button type="button" class="botao" onclick="irParaEtapa(6)">Próximo &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 6: DILEMA ESTÓICO -->
+                <div id="etapa6" class="etapa">
+                    <h3>Etapa VI: A Atitude Perante o Destino</h3>
+                    <p>Perante um grande infortúnio, parte do destino, qual seria a sua atitude?</p>
+                     <div class="dilema-options">
+                        <label><input type="radio" name="destino" value="aceitacao" required> <strong>Aceitação Racional (<span class="tooltip">Amor Fati<span class="tooltip-text">Termo estóico (popularizado por Nietzsche) que significa 'amor ao destino'; aceitar e amar tudo o que acontece.</span></span>)</strong></label>
+                        <label><input type="radio" name="destino" value="resistencia"> <strong>Resistência Virtuosa</strong></label>
+                        <label><input type="radio" name="destino" value="transcendencia"> <strong>Transcendência Emocional</strong></label>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(5)">&larr; Anterior</button>
+                        <button type="button" class="botao" onclick="irParaEtapa(7)">Próximo &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 7: NATUREZA DO KOSMOS -->
+                <div id="etapa7" class="etapa">
+                    <h3>Etapa VII: A Natureza do Kosmos</h3>
+                    <p>A realidade, na sua essência, é regida por qual princípio?</p>
+                     <div class="dilema-options">
+                        <label><input type="radio" name="kosmos" value="harmonia" required> <strong>A Harmonia (<span class="tooltip">Harmonia<span class="tooltip-text">Conceito pitagórico de uma ordem matemática e musical que rege o universo.</span></span>)</strong></label>
+                        <label><input type="radio" name="kosmos" value="conflito"> <strong>O Conflito (<span class="tooltip">Polemos<span class="tooltip-text">Conceito de Heráclito de que a guerra e o conflito entre opostos são o pai de todas as coisas.</span></span>)</strong></label>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(6)">&larr; Anterior</button>
+                        <button type="button" class="botao" onclick="irParaEtapa(8)">Próximo &rarr;</button>
+                    </div>
+                </div>
+                
+                <!-- ETAPA 8: PROPÓSITO DA VIDA -->
+                <div id="etapa8" class="etapa">
+                    <h3>Etapa VIII: O Propósito da Vida (<span class="tooltip">Eudaimonia<span class="tooltip-text">Termo grego para 'felicidade' ou 'florescimento humano', o bem supremo da vida.</span></span>)</h3>
+                    <p>A "vida boa" ou o florescimento da alma é alcançada através de:</p>
+                     <div class="dilema-options">
+                        <label><input type="radio" name="eudaimonia" value="contemplacao" required> Uma vida de contemplação.</label>
+                        <label><input type="radio" name="eudaimonia" value="servico"> Uma vida de serviço público e honra.</label>
+                        <label><input type="radio" name="eudaimonia" value="criacao"> Uma vida de criação e beleza.</label>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(7)">&larr; Anterior</button>
+                        <button type="button" class="botao" onclick="irParaEtapa(9)">Próximo &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 9: GESTÃO DAS PAIXÕES -->
+                <div id="etapa9" class="etapa">
+                    <h3>Etapa IX: A Gestão das Paixões (<span class="tooltip">Apatheia<span class="tooltip-text">Ideal estóico de um estado de tranquilidade, livre de perturbações emocionais.</span></span>)</h3>
+                    <p>Perante uma paixão forte, a sua tendência natural é:</p>
+                     <div class="dilema-options">
+                        <label><input type="radio" name="apatheia" value="analise" required> Analisá-la com a razão.</label>
+                        <label><input type="radio" name="apatheia" value="dominio"> Dominá-la com força de vontade.</label>
+                        <label><input type="radio" name="apatheia" value="canalizacao"> Canalizá-la para a criação.</label>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(8)">&larr; Anterior</button>
+                        <button type="button" class="botao" onclick="irParaEtapa(10)">Próximo &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 10: NATUREZA DO CRIADOR -->
+                <div id="etapa10" class="etapa">
+                    <h3>Etapa X: A Natureza do Criador (<span class="tooltip">Demiurgo<span class="tooltip-text">No 'Timeu' de Platão, é o artesão divino que ordena o cosmos a partir das Formas eternas.</span></span>)</h3>
+                    <p>Como você imagina o Criador do Cosmos?</p>
+                     <div class="dilema-options">
+                        <label><input type="radio" name="demiurgo" value="geometra" required> Como um Geómetra Perfeito.</label>
+                        <label><input type="radio" name="demiurgo" value="legislador"> Como um Rei Legislador.</label>
+                        <label><input type="radio" name="demiurgo" value="artista"> Como um Artista Divino.</label>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(9)">&larr; Anterior</button>
+                        <button type="button" class="botao" onclick="irParaEtapa(11)">Próximo &rarr;</button>
+                    </div>
+                </div>
+                
+                <!-- ETAPA 11: MÉTODO DE PURIFICAÇÃO -->
+                <div id="etapa11" class="etapa">
+                    <h3>Etapa XI: O Método da Purificação (<span class="tooltip">Katharsis<span class="tooltip-text">Termo grego para 'purificação' ou 'limpeza', especialmente da alma ou das emoções.</span></span>)</h3>
+                    <p>A alma purifica-se e aproxima-se do divino através de:</p>
+                     <div class="dilema-options">
+                        <label><input type="radio" name="katharsis" value="abstracao" required> Abstração e dialética.</label>
+                        <label><input type="radio" name="katharsis" value="sacrificio"> Atos de bravura e sacrifício.</label>
+                        <label><input type="radio" name="katharsis" value="musica"> Música e harmonia.</label>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(10)">&larr; Anterior</button>
+                        <button type="button" class="botao" onclick="irParaEtapa(12)">Próximo &rarr;</button>
+                    </div>
+                </div>
+                
+                <!-- ETAPA 12: REALIDADE ÚLTIMA -->
+                <div id="etapa12" class="etapa">
+                    <h3>Etapa XII: A Realidade Última</h3>
+                    <p>O que é mais "real" para si?</p>
+                     <div class="dilema-options">
+                        <label><input type="radio" name="realidade" value="ideias" required> As ideias e os conceitos eternos.</label>
+                        <label><input type="radio" name="realidade" value="acoes"> As ações e os seus efeitos concretos.</label>
+                        <label><input type="radio" name="realidade" value="manifestacao"> A beleza e a forma manifestadas.</label>
+                    </div>
+                    <div class="botoes-navegacao">
+                        <button type="button" class="botao" onclick="irParaEtapa(11)">&larr; Anterior</button>
+                        <button type="button" class="botao" id="botao-revelar" onclick="calcularResultado()">Revelar o Arquétipo</button>
+                    </div>
+                </div>
+
+                <!-- RESULTADO FINAL -->
+                <div id="resultado-oraculo" class="etapa">
+                    <h2>O Eco da Sua Alma</h2>
+                    <div id="numerologia-detalhes" class="numerologia-detalhes">
+                        <p><strong>Número da Alma (do seu nome):</strong> <span id="numero-alma-resultado"></span></p>
+                        <p><strong>Caminho de Vida (da sua data de nascimento):</strong> <span id="caminho-vida-resultado"></span></p>
+                    </div>
+                    <h3 id="resultado-arquetipo"></h3>
+                    <p id="resultado-descricao"></p>
+                    <div class="consentimento-container">
+                        <label><input type="checkbox" id="consentimento-comunicacao"> Concordo em receber comunicações e informações relevantes sobre o projeto por email ou WhatsApp.</label>
+                        <div class="botoes-resultado">
+                            <button type="button" class="botao" id="botao-download">Download do Resultado</button>
+                            <button type="button" class="botao" id="botao-whatsapp">WhatsApp</button>
+                            <button type="button" class="botao" id="botao-instagram">Instagram</button>
+                        </div>
+                    </div>
+                    <a href="arquetipos.html" class="botao" style="margin-top: 20px;">Saber Mais sobre as Naturezas da Alma</a>
+                </div>
             </div>
         </div>
     </main>
     <footer>
         <p>&copy; 2025 Oráculo de Mnemósine. Uma exploração filosófica.</p>
     </footer>
+    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
