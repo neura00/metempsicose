@@ -1,0 +1,16 @@
+{
+  "name": "oraculo-mnemosine",
+  "version": "1.0.0",
+  "description": "Oráculo de Mnemósine - Uma exploração filosófica",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Build complete - static files ready'",
+    "start": "python3 -m http.server 3000",
+    "dev": "python3 -m http.server 3000"
+  },
+  "keywords": ["filosofia", "platao", "pitagoras", "alma", "oraculo"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}
