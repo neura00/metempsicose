@@ -1,25 +1,30 @@
 // =========================================================================
 // CONFIGURAÇÃO E INICIALIZAÇÃO DO FIREBASE
-// Usando a sua nova configuração correta para 'oraculo-filosofico'
+// Usando a sua nova configuração correta para 'menemos'
 // =========================================================================
 const firebaseConfig = {
-  apiKey: "AIzaSyDjn8HlKnuwDGMrT5THQ575Vfun-8sl44U",
-  authDomain: "oraculo-filosofico.firebaseapp.com",
-  projectId: "oraculo-filosofico",
-  storageBucket: "oraculo-filosofico.appspot.com",
-  messagingSenderId: "965021700035",
-  appId: "1:965021700035:web:4242294512d8ac6ef0b776",
-  measurementId: "G-TWEW9E0DSP"
+  apiKey: "AIzaSyDcHuPiBGzsIgi9RmZd6gUYh49A6ij8JTc",
+  authDomain: "menemos.firebaseapp.com",
+  projectId: "menemos",
+  storageBucket: "menemos.appspot.com",
+  messagingSenderId: "561439786136",
+  appId: "1:561439786136:web:aef5d0d8b5e12b1f52bced",
+  measurementId: "G-FGZRQDH2X2"
 };
 
 // Inicializa o Firebase para que as outras funções possam usá-lo
 let db;
 try {
     if (typeof firebase !== 'undefined') {
-        const app = firebase.initializeApp(firebaseConfig);
-        db = firebase.firestore();
-        firebase.analytics();
-        console.log("Firebase inicializado com sucesso.");
+        // Evita reinicializar o app se ele já existir
+        if (firebase.apps.length === 0) {
+            const app = firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            firebase.analytics();
+            console.log("Firebase inicializado com sucesso.");
+        } else {
+            db = firebase.app().firestore();
+        }
     } else {
         console.error("SDK do Firebase não foi carregado.");
     }
