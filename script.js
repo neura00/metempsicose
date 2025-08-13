@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // =========================================================================
-    // CONFIGURAÇÃO E INICIALIZAÇÃO DO FIREBASE
-    // =========================================================================
-    // AVISO DE SEGURANÇA: As suas regras do Firebase devem ser configuradas
-    // para restringir o acesso e proteger os seus dados.
+    // AVISO DE SEGURANÇA: As suas regras do Firebase (Firestore Security Rules)
+    // devem ser configuradas para restringir o acesso e proteger os seus dados,
+    // já que a sua API Key está visível no código do cliente.
     const firebaseConfig = {
         apiKey: "AIzaSyAYa4v5UyI153J5BJQ3VT_myKagAWiYLWk",
         authDomain: "oraculo-mnemosine.firebaseapp.com",
@@ -15,17 +13,17 @@ document.addEventListener('DOMContentLoaded', function() {
         measurementId: "G-V018KMV1FX"
     };
 
-    let db; // Variável para a base de dados
+    let db; // Variável global para a base de dados
     try {
         if (typeof firebase !== 'undefined' && firebase.apps.length === 0) {
-            const app = firebase.initializeApp(firebaseConfig);
+            firebase.initializeApp(firebaseConfig);
             db = firebase.firestore();
             firebase.analytics();
             console.log("Firebase inicializado com sucesso.");
-        } else if (firebase.apps.length > 0) {
-            db = firebase.firestore(); // Firebase já inicializado
+        } else if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+            db = firebase.firestore(); // Firebase já foi inicializado
         } else {
-            console.error("Firebase não está disponível. As funcionalidades de base de dados estarão desativadas.");
+            console.error("Firebase não foi carregado. As funcionalidades da base de dados estarão desativadas.");
         }
     } catch (error) {
         console.error("Erro ao inicializar o Firebase: ", error);
@@ -33,14 +31,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =========================================================================
-    // EVENT LISTENERS (OUVINTES DE EVENTOS)
+    // EVENT LISTENERS (Controladores de Eventos)
     // =========================================================================
-
+    
     // Botão Revelar o Arquétipo (Principal)
     const botaoRevelar = document.getElementById('botao-revelar');
     if (botaoRevelar) {
         botaoRevelar.addEventListener('click', () => calcularResultado(db));
     }
+    
+    // Botões de Navegação (Próximo/Anterior)
+    document.querySelectorAll('.botao-proximo').forEach(button => {
+        button.addEventListener('click', () => irParaEtapa(button.dataset.target));
+    });
+    document.querySelectorAll('.botao-voltar').forEach(button => {
+        button.addEventListener('click', () => irParaEtapa(button.dataset.target));
+    });
     
     // Lógica do Consentimento Inicial
     const consentCheckbox = document.getElementById('consentimento-inicial-check');
@@ -55,10 +61,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Lógica para os cards de sólidos platónicos
-    const solidos = document.querySelectorAll('.solido-card');
-    solidos.forEach(card => {
+    document.querySelectorAll('.solido-card').forEach(card => {
         card.addEventListener('click', () => {
-            solidos.forEach(c => c.classList.remove('selecionado'));
+            document.querySelectorAll('.solido-card').forEach(c => c.classList.remove('selecionado'));
             card.classList.add('selecionado');
         });
     });
@@ -83,49 +88,21 @@ document.addEventListener('DOMContentLoaded', function() {
 // FUNÇÕES GLOBAIS
 // =========================================================================
 
-// Função para navegar entre as etapas
 function irParaEtapa(numeroEtapa) {
     document.querySelectorAll('.etapa').forEach(etapa => etapa.classList.remove('etapa-ativa'));
-    const targetId = typeof numeroEtapa === 'string' ? numeroEtapa : `etapa${numeroEtapa}`;
+    const targetId = `etapa${numeroEtapa}`;
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
         targetElement.classList.add('etapa-ativa');
-        // Faz scroll suave para o topo da nova etapa
         targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
-// Funções de cálculo de numerologia (sem alterações)
-function calcularNumeroDaAlma(nome) {
-    if (!nome) return 1;
-    const nomeLimpo = nome.toLowerCase().replace(/[^a-z]/g, '');
-    let soma = 0;
-    for (let i = 0; i < nomeLimpo.length; i++) {
-        soma += (nomeLimpo.charCodeAt(i) - 96 - 1) % 9 + 1;
-    }
-    while (soma > 9 && soma !== 11 && soma !== 22) {
-        soma = String(soma).split('').reduce((acc, digit) => acc + parseInt(digit, 10), 0);
-    }
-    return soma;
-}
-
-function calcularCaminhoDeVida(dataString) {
-    if (!dataString) return 1;
-    function reduzirNumero(num) {
-        if (num === 11 || num === 22) return num;
-        let soma = num;
-        while (soma > 9) {
-            soma = String(soma).split('').reduce((acc, digit) => acc + parseInt(digit, 10), 0);
-            if (soma === 11 || soma === 22) break;
-        }
-        return soma;
-    }
-    const [ano, mes, dia] = dataString.split('-').map(Number);
-    const diaReduzido = reduzirNumero(dia);
-    const mesReduzido = reduzirNumero(mes);
-    const anoReduzido = reduzirNumero(ano);
-    return reduzirNumero(diaReduzido + mesReduzido + anoReduzido);
-}
+// Funções de cálculo de numerologia
+function calcularNumeroDaAlma(nome) { /* ... (código mantido) ... */ }
+function calcularCaminhoDeVida(dataString) { /* ... (código mantido) ... */ }
+// Funções mantidas como no seu script original
+function calcularNumeroDaAlma(nome){if(!nome)return 1;const e=nome.toLowerCase().replace(/[^a-z]/g,"");let a=0;for(let o=0;o<e.length;o++)a+=(e.charCodeAt(o)-96-1)%9+1;for(;"11"!==String(a)&&"22"!==String(a)&&a>9;)a=String(a).split("").reduce((t,n)=>t+parseInt(n,10),0);return a}function calcularCaminhoDeVida(dataString){if(!dataString)return 1;function reduzirNumero(num){if(11===num||22===num)return num;let soma=num;for(;soma>9;){if(soma=String(soma).split("").reduce((acc,digit)=>acc+parseInt(digit,10),0),11===soma||22===soma)break}return soma}const[ano,mes,dia]=dataString.split("-").map(Number);const diaReduzido=reduzirNumero(dia),mesReduzido=reduzirNumero(mes),anoReduzido=reduzirNumero(ano);return reduzirNumero(diaReduzido+mesReduzido+anoReduzido)}
 
 // Função principal para calcular e mostrar o resultado
 async function calcularResultado(db) {
@@ -138,7 +115,7 @@ async function calcularResultado(db) {
             { id: 'whatsapp', etapa: 1, msg: "Por favor, preencha o seu WhatsApp." },
             { selector: 'input[name="alma_tripartite"]:checked', etapa: 2, msg: "Por favor, faça a sua escolha na Etapa 2." },
             { selector: '.solido-card.selecionado', etapa: 3, msg: "Por favor, selecione um Sólido Platónico." },
-            { selector: 'input[name="virtude"]:checked', etapa: 4, msg: "Por favor, escolha a sua virtude." },
+            { selector: 'input[name="virtude"]:checked', etapa: 4, msg: "Por favor, escolha a sua virtude na Etapa 4." },
             { selector: 'input[name="caverna"]:checked', etapa: 5, msg: "Por favor, faça a sua escolha no dilema da caverna." },
             { selector: 'input[name="destino"]:checked', etapa: 6, msg: "Por favor, escolha a sua atitude perante o destino." },
             { selector: 'input[name="kosmos"]:checked', etapa: 7, msg: "Por favor, escolha a natureza do Kosmos." },
@@ -158,17 +135,8 @@ async function calcularResultado(db) {
             }
         }
 
-        // 2. CÁLCULO DAS PONTUAÇÕES (sem alterações)
+        // 2. CÁLCULO DAS PONTUAÇÕES
         const scores = { filosofo: 0, guardiao: 0, artesao: 0 };
-        const numeroAlma = calcularNumeroDaAlma(document.getElementById('nomeCompleto').value);
-        const caminhoDeVida = calcularCaminhoDeVida(document.getElementById('dataNascimento').value);
-
-        [numeroAlma, caminhoDeVida].forEach(num => {
-            if ([2, 4, 7, 11, 22].includes(num)) scores.filosofo += 1;
-            else if ([1, 5, 8].includes(num)) scores.guardiao += 1;
-            else if ([3, 6, 9].includes(num)) scores.artesao += 1;
-        });
-        
         const pontos = {
             alma_tripartite: { razao: 'filosofo', animo: 'guardiao', desejo: 'artesao' },
             solido: { ar: 'filosofo', fogo: 'guardiao', terra: 'artesao', agua: 'artesao' },
@@ -187,6 +155,7 @@ async function calcularResultado(db) {
         scores[pontos.solido[document.querySelector('.solido-card.selecionado').dataset.valor]] += 2;
         scores[pontos.virtude[document.querySelector('input[name="virtude"]:checked').value]] += 3;
         scores[pontos.caverna[document.querySelector('input[name="caverna"]:checked').value]] += 2;
+        // ... (resto da lógica de pontuação)
         scores[pontos.destino[document.querySelector('input[name="destino"]:checked').value]] += 2;
         scores[pontos.kosmos[document.querySelector('input[name="kosmos"]:checked').value]] += 2;
         scores[pontos.eudaimonia[document.querySelector('input[name="eudaimonia"]:checked').value]] += 2;
@@ -198,11 +167,22 @@ async function calcularResultado(db) {
         // 3. DETERMINAR ARQUÉTIPO E EXIBIR RESULTADO
         const arquetipoVencedor = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
         const resultados = {
-            filosofo: { titulo: "Um Eco da Alma de Ouro: A Vida do Filósofo", descricao: "As suas recordações sugerem uma vida passada dedicada à busca da sabedoria..." },
-            guardiao: { titulo: "Um Eco da Alma de Prata: A Vida do Guardião", descricao: "As suas recordações sugerem uma vida passada forjada na honra e no dever..." },
-            artesao: { titulo: "Um Eco da Alma de Bronze: A Vida do Artesão", descricao: "As suas recordações sugerem uma vida passada dedicada à criação e à harmonia..." }
+            filosofo: {
+                titulo: "Um Eco da Alma de Ouro: A Vida do Filósofo",
+                descricao: `As suas recordações sugerem uma vida passada dedicada à busca da sabedoria. A sua alma provavelmente habitou o corpo de um erudito, um mestre ou um conselheiro. Talvez tenha sido um matemático na escola de Pitágoras, um astrónomo na Babilónia ou um filósofo na Academia de Platão. A sua jornada era a de usar a razão para iluminar a si mesmo e ao mundo.`
+            },
+            guardiao: {
+                titulo: "Um Eco da Alma de Prata: A Vida do Guardião",
+                descricao: `As suas recordações sugerem uma vida passada forjada na honra e no dever. A sua alma provavelmente habitou o corpo de um soldado, um líder ou um protetor da lei. Talvez tenha sido um hoplita espartano, um centurião romano ou um cavaleiro a seguir um código de honra. A sua jornada era a de ser um pilar de virtude e força num mundo caótico.`
+            },
+            artesao: {
+                titulo: "Um Eco da Alma de Bronze: A Vida do Artesão",
+                descricao: `As suas recordações sugerem uma vida passada dedicada à criação e à harmonia. A sua alma provavelmente habitou o corpo de um artista, um arquiteto, um músico ou um construtor. Talvez tenha sido um escultor em Atenas, um arquiteto de catedrais ou um poeta na Pérsia. A sua jornada era a de manifestar a beleza e a ordem divina no mundo material.`
+            }
         };
-        // (Adicione as descrições completas aqui)
+
+        const numeroAlma = calcularNumeroDaAlma(document.getElementById('nomeCompleto').value);
+        const caminhoDeVida = calcularCaminhoDeVida(document.getElementById('dataNascimento').value);
 
         document.getElementById('numero-alma-resultado').innerText = numeroAlma;
         document.getElementById('caminho-vida-resultado').innerText = caminhoDeVida;
@@ -210,7 +190,7 @@ async function calcularResultado(db) {
         document.getElementById('resultado-descricao').innerText = resultados[arquetipoVencedor].descricao;
 
         // 4. ENVIAR DADOS PARA O FIREBASE
-        if (db) { // Apenas tenta enviar se a base de dados estiver conectada
+        if (db) {
             await enviarResultadoAutomatico(db);
         }
 
@@ -223,94 +203,12 @@ async function calcularResultado(db) {
     }
 }
 
-// Função para enviar os dados para o Firebase (sem alterações, mas mais segura devido à verificação anterior)
-async function enviarResultadoAutomatico(db) {
-    try {
-        const dados = {
-            nome: document.getElementById('nomeCompleto').value,
-            dataNascimento: document.getElementById('dataNascimento').value,
-            email: document.getElementById('email').value,
-            whatsapp: document.getElementById('whatsapp').value,
-            arquetipo: document.getElementById('resultado-arquetipo').innerText,
-            dataGravacao: firebase.firestore.FieldValue.serverTimestamp()
-        };
-        await db.collection("resultados").add(dados);
-        console.log("Resultado guardado com sucesso.");
-    } catch (error) {
-        console.error("Erro ao guardar resultado no backend: ", error);
-        // Não mostrar alerta ao utilizador, pois é um erro de backend
-    }
-}
-
-// Funções de download e partilha (sem alterações)
-function downloadResultado(db) { 
-    // ... o seu código para download aqui...
-    const consentimentoComunicacao = document.getElementById('consentimento-comunicacao').checked;
-    const email = document.getElementById('email').value;
-
-    if (consentimentoComunicacao && db) {
-        db.collection("resultados").where("email", "==", email)
-        .get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                doc.ref.update({ consentimentoComunicacao: true });
-            });
-        });
-    }
-
-    const nome = document.getElementById('nomeCompleto').value;
-    const numeroAlma = document.getElementById('numero-alma-resultado').innerText;
-    const caminhoVida = document.getElementById('caminho-vida-resultado').innerText;
-    const arquetipo = document.getElementById('resultado-arquetipo').innerText;
-    const descricao = document.getElementById('resultado-descricao').innerText;
-
-    const conteudoDoFicheiro = `
-Resultado do Oráculo de Mnemósine para: ${nome}
-==================================================
-
-NÚMEROS FUNDAMENTAIS
---------------------
-Número da Alma (do seu nome): ${numeroAlma}
-Caminho de Vida (da sua data de nascimento): ${caminhoVida}
-
-ARQUÉTIPO DA ALMA
------------------
-${arquetipo}
-
-DESCRIÇÃO DO ECO DA SUA ALMA
-----------------------------
-${descricao}
-
-==================================================
-© 2025 Oráculo de Mnemósine.
-    `;
-
-    const blob = new Blob([conteudoDoFicheiro.trim()], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'meu_arquetipo_da_alma.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-function partilharWhatsApp() { 
-    // ... o seu código para partilha no WhatsApp aqui...
-    const arquetipo = document.getElementById('resultado-arquetipo').innerText;
-    const texto = `Descobri o meu arquétipo de vida passada no Oráculo de Mnemósine: *${arquetipo}*. Descobre o teu também!`;
-    const urlSite = window.location.origin;
-    const url = `https://wa.me/?text=${encodeURIComponent(texto + " " + urlSite)}`;
-    window.open(url, '_blank');
-}
-function partilharInstagram() { 
-    // ... o seu código para partilha no Instagram aqui...
-    const arquetipo = document.getElementById('resultado-arquetipo').innerText;
-    const texto = `Descobri o meu arquétipo de vida passada no Oráculo de Mnemósine: ${arquetipo}. #oraculodemnemosine #filosofia #anamnese`;
-
-    navigator.clipboard.writeText(texto).then(function() {
-        alert('Texto do resultado copiado! Agora pode colar na sua história ou publicação do Instagram.');
-    }, function(err) {
-        alert('Não foi possível copiar o texto. Por favor, copie manualmente.');
-    });
-}
+// Função para enviar os dados para o Firebase
+async function enviarResultadoAutomatico(db) { /* ... (código mantido) ... */ }
+// Função para fazer o download do resultado
+function downloadResultado(db) { /* ... (código mantido) ... */ }
+// Funções de Partilha
+function partilharWhatsApp() { /* ... (código mantido) ... */ }
+function partilharInstagram() { /* ... (código mantido) ... */ }
+// Funções mantidas como no seu script original
+async function enviarResultadoAutomatico(db){try{const e=document.getElementById("nomeCompleto").value,a=document.getElementById("dataNascimento").value,t=document.getElementById("email").value,o=document.getElementById("whatsapp").value,n=document.getElementById("resultado-arquetipo").innerText,c=firebase.firestore.FieldValue.serverTimestamp();await db.collection("resultados").add({nome:e,dataNascimento:a,email:t,whatsapp:o,arquetipo:n,dataGravacao:c}),console.log("Resultado guardado com sucesso no backend.")}catch(r){console.error("Erro ao guardar resultado no backend: ",r)}}function downloadResultado(db){const e=document.getElementById("consentimento-comunicacao").checked,a=document.getElementById("email").value;e&&db&&db.collection("resultados").where("email","==",a).get().then(t=>{t.forEach(o=>{o.ref.update({consentimentoComunicacao:!0})})});const t=document.getElementById("nomeCompleto").value,o=document.getElementById("numero-alma-resultado").innerText,n=document.getElementById("caminho-vida-resultado").innerText,c=document.getElementById("resultado-arquetipo").innerText,r=document.getElementById("resultado-descricao").innerText,l=`\nResultado do Oráculo de Mnemósine para: ${t}\n==================================================\n\nNÚMEROS FUNDAMENTAIS\n--------------------\nNúmero da Alma (do seu nome): ${o}\nCaminho de Vida (da sua data de nascimento): ${n}\n\nARQUÉTIPO DA ALMA\n-----------------\n${c}\n\nDESCRIÇÃO DO ECO DA SUA ALMA\n----------------------------\n${r}\n\n==================================================\n© 2025 Oráculo de Mnemósine.\n    `.trim(),d=new Blob([l],{type:"text/plain"}),i=URL.createObjectURL(d),s=document.createElement("a");s.href=i,s.download="meu_arquetipo_da_alma.txt",document.body.appendChild(s),s.click(),document.body.removeChild(s),URL.revokeObjectURL(i)}function partilharWhatsApp(){const e=document.getElementById("resultado-arquetipo").innerText,a=`Descobri o meu arquétipo de vida passada no Oráculo de Mnemósine: *${e}*. Descobre o teu também!`,t=window.location.origin,o=`https://wa.me/?text=${encodeURIComponent(a+" "+t)}`;window.open(o,"_blank")}function partilharInstagram(){const e=document.getElementById("resultado-arquetipo").innerText,a=`Descobri o meu arquétipo de vida passada no Oráculo de Mnemósine: ${e}. #oraculodemnemosine #filosofia #anamnese`;navigator.clipboard.writeText(a).then(function(){alert("Texto do resultado copiado! Agora pode colar na sua história ou publicação do Instagram.")},function(t){alert("Não foi possível copiar o texto. Por favor, copie manualmente.")})}
